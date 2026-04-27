@@ -44,13 +44,7 @@ author = "authors"
 name = "Github"
 icon = "fa-brands fa-github fa-2x"
 weight = 1
-url = "https://github.com/johndoe/"
-
-[[params.social]]
-name = "Gitlab"
-icon = "fa-brands fa-gitlab fa-2x"
-weight = 2
-url = "https://gitlab.com/daviacandido/"
+url = "https://github.com/daviacandido/"
 
 [[params.social]]
 name = "LinkedIn"
@@ -89,14 +83,14 @@ keywords = "blog,devsecops,pessoal"
 [[languages.pt-br.menu.main]]
 name = "Sobre"
 weight = 1
-url = "about/"
+url = "about.pt-br/"
 
 [[languages.pt-br.menu.main]]
 name = "Blog"
 weight = 2
-url = "posts/"
+url = "posts.pt-br/"
 
 [[languages.pt-br.menu.main]]
 name = "Contato"
 weight = 5
-url = "contact/"
+url = "contact.pt-br/"

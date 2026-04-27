@@ -1,0 +1,102 @@
+baseURL = "https://blog.daviacandido.com.br"
+title = "daviacandido"
+theme = "hugo-coder"
+languageCode = "en"
+defaultContentLanguage = "en"
+enableEmoji = true
+
+[pagination]
+pagerSize = 6
+
+
+[markup]
+[markup.highlight]
+noClasses = false
+
+[markup.goldmark]
+[markup.goldmark.renderer]
+unsafe = true
+
+[params]
+author = "Davi A. Cândido"
+license = '<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA-4.0</a>'
+description = "Davi's personal website"
+keywords = "blog,devsecops,sre,personal"
+info = ["DevSecOps and Hobbies"]
+avatarURL = "images/avatar.png"
+#gravatar = "daviacandido@hotmail.com"
+dateFormat = "January 2, 2006"
+since = 2026
+rtl = false
+colorScheme = "auto"
+hideColorSchemeToggle = false
+maxSeeAlsoItems = 5
+customCSS = []
+customSCSS = []
+
+[taxonomies]
+category = "categories"
+series = "series"
+tag = "tags"
+author = "authors"
+
+[[params.social]]
+name = "Github"
+icon = "fa-brands fa-github fa-2x"
+weight = 1
+url = "https://github.com/johndoe/"
+
+[[params.social]]
+name = "Gitlab"
+icon = "fa-brands fa-gitlab fa-2x"
+weight = 2
+url = "https://gitlab.com/daviacandido/"
+
+[[params.social]]
+name = "LinkedIn"
+icon = "fa-brands fa-linkedin fa-2x"
+weight = 4
+url = "https://www.linkedin.com/in/daviaraujocandido/"
+
+[languages.en]
+languageName = ":uk:"
+
+[[languages.en.menu.main]]
+name = "About"
+weight = 1
+url = "about/"
+
+[[languages.en.menu.main]]
+name = "Blog"
+weight = 2
+url = "posts/"
+
+[[languages.en.menu.main]]
+name = "Contact me"
+weight = 5
+url = "contact/"
+
+[languages.pt-br]
+languageName = ":brazil:"
+title = "daviacandido"
+
+[languages.pt-br.params]
+author = "Davi A. Cândido"
+info = "DevSecOps e Hobbies"
+description = "Meu site pessoal"
+keywords = "blog,devsecops,pessoal"
+
+[[languages.pt-br.menu.main]]
+name = "Sobre"
+weight = 1
+url = "about/"
+
+[[languages.pt-br.menu.main]]
+name = "Blog"
+weight = 2
+url = "posts/"
+
+[[languages.pt-br.menu.main]]
+name = "Contato"
+weight = 5
+url = "contact/"

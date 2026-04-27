@@ -42,7 +42,7 @@ jobs:
         env:
           HUGO_ENVIRONMENT: production
         run: |
-          hugo --minify --baseURL "https://daviacandido.github.io/blog-daviacandido/"
+          hugo --minify
 
       - name: Upload do artefato (pasta public)
         uses: actions/upload-pages-artifact@v3

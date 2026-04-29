@@ -55,6 +55,12 @@ url = "https://www.linkedin.com/in/daviaraujocandido/"
 languageName = ":uk:"
 title = "daviacandido"
 
+[languages.en.params]
+author = "Davi A. Cândido"
+info = "DevSecOps and Hobbies"
+description = "Personal website and blog of Davi A. Cândido. Articles and projects about DevSecOps, Site Reliability Engineering (SRE), cloud-native infrastructure (AWS/Azure), and hobbies."
+keywords = "blog,devsecops,personal,sre,kubernetes,aws"
+
 [[languages.en.menu.main]]
 name = "About"
 weight = 1
@@ -77,8 +83,8 @@ title = "daviacandido"
 [languages.pt-br.params]
 author = "Davi A. Cândido"
 info = "DevSecOps e Hobbies"
-description = "Meu site pessoal"
-keywords = "blog,devsecops,pessoal"
+description = "Site e blog pessoal de Davi A. Cândido. Artigos e projetos sobre DevSecOps, Engenharia de Confiabilidade (SRE), infraestrutura cloud-native (AWS/Azure) e hobbies."
+keywords = "blog,devsecops,pessoal,sre,kubernetes,aws"
 
 [[languages.pt-br.menu.main]]
 name = "Sobre"

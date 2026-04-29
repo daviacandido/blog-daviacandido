@@ -1,0 +1,8 @@
+# As a condition of accessing this website, you agree to abide by the following
+# content signals:
+# [Pode manter o restante dos comentários originais aqui se desejar...]
+
+User-agent: *
+Allow: /
+
+Sitemap: https://blog.daviacandido.com.br/sitemap.xml

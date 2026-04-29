@@ -1,6 +1,6 @@
 +++
-title = "About"
-description = "About Davi Araujo Cândido"
+title = "Sobre"
+description = "Sobre Davi Araujo Cândido"
 date = "2026-04-27"
 aliases = ["about", "contact"]
 author = "Davi A. Cândido"

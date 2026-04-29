@@ -54,6 +54,7 @@ url = "https://www.linkedin.com/in/daviaraujocandido/"
 
 [languages.en]
 languageName = ":uk:"
+title = "daviacandido"
 
 [[languages.en.menu.main]]
 name = "About"
@@ -83,14 +84,14 @@ keywords = "blog,devsecops,pessoal"
 [[languages.pt-br.menu.main]]
 name = "Sobre"
 weight = 1
-url = "about.pt-br/"
+url = "about/"
 
 [[languages.pt-br.menu.main]]
 name = "Blog"
 weight = 2
-url = "posts.pt-br/"
+url = "posts/"
 
 [[languages.pt-br.menu.main]]
 name = "Contato"
 weight = 5
-url = "contact.pt-br/"
+url = "contact/"

@@ -1,0 +1,26 @@
+<footer class="footer">
+  <section class="container">
+
+    {{ if not .IsHome }}
+    <div class="footer-social" style="margin-bottom: 15px;">
+      {{ range .Site.Params.social }}
+        <a style="margin: 0 10px; font-size: 1.5em; color: inherit; text-decoration: none;" href="{{ .url }}" target="_blank" rel="noopener" aria-label="{{ .name }}" title="{{ .name }}">
+          <i class="{{ .icon }}"></i>
+        </a>
+      {{ end }}
+    </div>
+    {{ end }}
+
+    ©
+    {{ if (and .Site.Params.since (lt .Site.Params.since now.Year)) }}
+      {{ .Site.Params.since }} -
+    {{ end }}
+    {{ now.Year }}
+    {{ with .Site.Params.author }} {{ . }} {{ end }}
+
+    {{ if (and .Site.Params.commit .GitInfo) }}
+      · [<a href="{{ .Site.Params.commit }}/{{ .GitInfo.Hash }}" target="_blank" rel="noopener">{{ .GitInfo.AbbreviatedHash }}</a>]
+    {{ end }}
+
+  </section>
+</footer>

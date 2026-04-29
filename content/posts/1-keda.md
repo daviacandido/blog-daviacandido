@@ -5,8 +5,6 @@ tags = ["Kubernetes", "KEDA", "SRE", "ArgoCD", "GitOps"]
 author = "Davi A. Cândido"
 +++
 
-# Elevating Kubernetes Autoscaling: My Journey with KEDA
-
 As an SRE/DevOps engineer, ensuring that the infrastructure can handle traffic spikes without wasting idle resources is a daily challenge. Recently, I decided to look beyond the traditional Horizontal Pod Autoscaler (HPA) and explore KEDA (Kubernetes Event-Driven Autoscaling).
 
 This experience has changed how we think about elasticity in the cluster. Below is a summary of the implementation, the strategies adopted, and my vision for the future.

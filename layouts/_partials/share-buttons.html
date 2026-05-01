@@ -1,0 +1,38 @@
+<div style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); text-align: center;">
+
+  <p style="margin-bottom: 1.5rem; text-align: center; width: 100%;">
+    {{ if eq .Lang "pt-br" }}
+      Compartilhe este artigo:
+    {{ else }}
+      Share this post:
+    {{ end }}
+    </p>
+
+  <!-- Configuração do texto dinâmico baseada no idioma -->
+  {{ $shareText := "" }}
+  {{ if eq .Lang "pt-br" }}
+    {{ $shareText = printf "Dê uma olhada neste artigo que encontrei no blog do Davi: %s" .Title }}
+  {{ else }}
+    {{ $shareText = printf "Check out this article I found on Davi's blog: %s" .Title }}
+  {{ end }}
+
+  <!-- justify-content: center para alinhar os ícones no meio da tela -->
+  <div style="display: flex; justify-content: center; gap: 20px; font-size: 1.8em; flex-wrap: wrap;">
+
+    <!-- WhatsApp (Com quebra de linha %0A entre o texto e o link) -->
+    <a href="https://api.whatsapp.com/send?text={{ $shareText | urlquery }}%0A%0A{{ .Permalink }}" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp" style="color: #25D366; text-decoration: none; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- LinkedIn (A API moderna do LinkedIn aceita apenas a URL e puxa os dados do seu site) -->
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink }}" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn" style="color: #0077b5; text-decoration: none; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+      <i class="fab fa-linkedin"></i>
+    </a>
+
+    <!-- Twitter / X -->
+    <a href="https://twitter.com/intent/tweet?text={{ $shareText | urlquery }}&url={{ .Permalink }}" target="_blank" rel="noopener" aria-label="Twitter" title="Twitter" style="color: inherit; text-decoration: none; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+      <i class="fab fa-x-twitter"></i>
+    </a>
+
+  </div>
+</div>

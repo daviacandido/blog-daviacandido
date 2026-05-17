@@ -42,6 +42,24 @@
 
      {{ partial "share-buttons.html" . }}
 
+      {{/* Navegação entre posts: .NextInSection = mais antigo | .PrevInSection = mais novo */}}
+      {{ if or .NextInSection .PrevInSection }}
+      <nav class="post-nav" aria-label="Post navigation">
+        <div class="post-nav-older">
+          {{ with .NextInSection }}
+            <span class="post-nav-label">← {{ if eq $.Site.Language.Lang "pt-br" }}Anterior{{ else }}Older{{ end }}</span>
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          {{ end }}
+        </div>
+        <div class="post-nav-newer">
+          {{ with .PrevInSection }}
+            <span class="post-nav-label">{{ if eq $.Site.Language.Lang "pt-br" }}Mais recente{{ else }}Newer{{ end }} →</span>
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          {{ end }}
+        </div>
+      </nav>
+      {{ end }}
+
       <footer>
         {{ partial "posts/series.html" . }}
         {{ partial "posts/disqus.html" . }}

@@ -5,6 +5,9 @@ languageCode = "en"
 defaultContentLanguage = "en"
 enableEmoji = true
 
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
 [pagination]
 pagerSize = 6
 
@@ -30,7 +33,7 @@ rtl = false
 colorScheme = "auto"
 hideColorSchemeToggle = false
 maxSeeAlsoItems = 5
-customCSS = []
+customCSS = ["css/custom.css"]
 customSCSS = []
 
 [taxonomies]
@@ -72,6 +75,16 @@ weight = 2
 url = "posts/"
 
 [[languages.en.menu.main]]
+name = "Tags"
+weight = 3
+url = "tags/"
+
+[[languages.en.menu.main]]
+name = "Search"
+weight = 4
+url = "search/"
+
+[[languages.en.menu.main]]
 name = "Contact me"
 weight = 5
 url = "contact/"
@@ -95,6 +108,16 @@ url = "about/"
 name = "Blog"
 weight = 2
 url = "posts/"
+
+[[languages.pt-br.menu.main]]
+name = "Tags"
+weight = 3
+url = "tags/"
+
+[[languages.pt-br.menu.main]]
+name = "Busca"
+weight = 4
+url = "search/"
 
 [[languages.pt-br.menu.main]]
 name = "Contato"

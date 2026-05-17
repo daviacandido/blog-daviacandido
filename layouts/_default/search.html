@@ -1,0 +1,254 @@
+{{ define "title" }}
+  {{- .Title }} · {{ .Site.Title -}}
+{{ end }}
+
+{{ define "content" }}
+
+{{/* Strings por idioma */}}
+{{ $isPtBr := eq .Site.Language.Lang "pt-br" }}
+{{ $txt := dict
+  "placeholder"    "Type to search articles..."
+  "scopeLabel"     "Search in:"
+  "scopeAll"       "Title &amp; Content"
+  "scopeTitle"     "Title only"
+  "scopeContent"   "Content only"
+  "noResults"      "No results found."
+  "loading"        "Loading index..."
+}}
+{{ if $isPtBr }}
+  {{ $txt = dict
+    "placeholder"    "Digite para buscar artigos..."
+    "scopeLabel"     "Buscar em:"
+    "scopeAll"       "Título e Conteúdo"
+    "scopeTitle"     "Somente título"
+    "scopeContent"   "Somente conteúdo"
+    "noResults"      "Nenhum resultado encontrado."
+    "loading"        "Carregando índice..."
+  }}
+{{ end }}
+
+<section class="container">
+  <header>
+    <h1 class="title">
+      <a class="title-link" href="{{ .Permalink | safeURL }}">{{ .Title }}</a>
+    </h1>
+  </header>
+
+  <div class="search-box">
+    <div class="search-input-row">
+      <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+      <input
+        id="search-input"
+        type="search"
+        placeholder="{{ index $txt "placeholder" }}"
+        autocomplete="off"
+        autofocus
+      >
+    </div>
+
+    <fieldset class="search-scope">
+      <legend>{{ index $txt "scopeLabel" }}</legend>
+      <label>
+        <input type="radio" name="scope" value="both" checked>
+        {{ index $txt "scopeAll" | safeHTML }}
+      </label>
+      <label>
+        <input type="radio" name="scope" value="title">
+        {{ index $txt "scopeTitle" }}
+      </label>
+      <label>
+        <input type="radio" name="scope" value="content">
+        {{ index $txt "scopeContent" }}
+      </label>
+    </fieldset>
+  </div>
+
+  <div id="search-results" role="region" aria-live="polite"></div>
+</section>
+
+<style>
+.search-box { margin-bottom: 2rem; }
+
+.search-input-row {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  border: 1px solid rgba(128, 128, 128, .4);
+  border-radius: 6px;
+  padding: .55rem 1rem;
+  margin-bottom: 1rem;
+  transition: border-color .2s;
+}
+.search-input-row:focus-within { border-color: currentColor; }
+.search-input-row input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1.05rem;
+  outline: none;
+  color: inherit;
+}
+
+.search-scope {
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .3rem 1.5rem;
+}
+.search-scope legend {
+  font-weight: 600;
+  margin-bottom: .4rem;
+  float: left;
+  width: 100%;
+}
+.search-scope label {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  cursor: pointer;
+}
+
+/* Results */
+.search-result {
+  border-bottom: 1px solid rgba(128, 128, 128, .2);
+  padding: 1.25rem 0;
+}
+.search-result:last-child { border-bottom: none; }
+.search-result h2 {
+  margin: 0 0 .25rem;
+  font-size: 1.1rem;
+}
+.search-result-date {
+  font-size: .82rem;
+  opacity: .55;
+}
+.search-result-summary {
+  margin: .45rem 0 .6rem;
+  line-height: 1.65;
+  opacity: .85;
+}
+.search-result-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  margin-top: .4rem;
+}
+.search-result-tag {
+  font-size: .72rem;
+  padding: .12rem .5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(128, 128, 128, .4);
+  opacity: .75;
+}
+.search-empty {
+  opacity: .6;
+  margin-top: 1.5rem;
+}
+</style>
+
+{{/* URL do índice JSON — gerado por língua pelo Hugo */}}
+{{ $indexURL := print (relLangURL "/") "index.json" }}
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js" crossorigin="anonymous"></script>
+<script>
+(function () {
+  'use strict';
+
+  var INDEX_URL   = '{{ $indexURL }}';
+  var NO_RESULTS  = '{{ index $txt "noResults" }}';
+
+  var input     = document.getElementById('search-input');
+  var container = document.getElementById('search-results');
+  var data      = null;
+  var fuse      = null;
+
+  function scopeKeys(scope) {
+    if (scope === 'title')   return [{ name: 'title',   weight: 1 }];
+    if (scope === 'content') return [{ name: 'content', weight: 1 }];
+    return [
+      { name: 'title',   weight: 0.7 },
+      { name: 'content', weight: 0.3 },
+    ];
+  }
+
+  function makeFuse(scope) {
+    return new Fuse(data, {
+      keys: scopeKeys(scope),
+      includeScore: true,
+      threshold: 0.2,
+      minMatchCharLength: 2,
+      ignoreLocation: true,
+    });
+  }
+
+  function currentScope() {
+    var el = document.querySelector('input[name="scope"]:checked');
+    return el ? el.value : 'both';
+  }
+
+  function esc(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function renderResults(results) {
+    if (!results.length) {
+      container.innerHTML = '<p class="search-empty">' + NO_RESULTS + '</p>';
+      return;
+    }
+    container.innerHTML = results.map(function (r) {
+      var item = r.item;
+      var tags = (item.tags || []).map(function (t) {
+        return '<span class="search-result-tag">' + esc(t) + '</span>';
+      }).join('');
+
+      return '<article class="search-result">'
+        + '<h2><a href="' + esc(item.url) + '">' + esc(item.title) + '</a></h2>'
+        + '<span class="search-result-date">' + esc(item.date) + '</span>'
+        + (item.summary ? '<p class="search-result-summary">' + esc(item.summary) + '</p>' : '')
+        + (tags ? '<div class="search-result-tags">' + tags + '</div>' : '')
+        + '</article>';
+    }).join('');
+  }
+
+  function search() {
+    var q = input.value.trim();
+    if (!fuse || q.length < 2) {
+      container.innerHTML = '';
+      return;
+    }
+    renderResults(fuse.search(q, { limit: 10 }));
+  }
+
+  function rebuildAndSearch() {
+    if (!data) return;
+    fuse = makeFuse(currentScope());
+    search();
+  }
+
+  /* Carrega o índice JSON gerado pelo Hugo */
+  fetch(INDEX_URL)
+    .then(function (r) { return r.json(); })
+    .then(function (json) {
+      data = json;
+      fuse = makeFuse('both');
+      /* Suporte a ?q= na URL para vir de outro link */
+      var params = new URLSearchParams(window.location.search);
+      var q = params.get('q');
+      if (q) { input.value = q; }
+      search();
+    });
+
+  input.addEventListener('input', search);
+
+  document.querySelectorAll('input[name="scope"]').forEach(function (el) {
+    el.addEventListener('change', rebuildAndSearch);
+  });
+}());
+</script>
+{{ end }}

@@ -1,0 +1,31 @@
+{{ define "title" }}
+  {{- i18n "tags" | default "Tags" }} · {{ .Site.Title -}}
+{{ end }}
+
+{{ define "content" }}
+<section class="container">
+  <header>
+    <h1 class="title">
+      <a class="title-link" href="{{ .Permalink | safeURL }}">
+        {{- i18n "tags" | default "Tags" -}}
+      </a>
+    </h1>
+  </header>
+
+  {{ .Content }}
+
+  <div class="tag-cloud">
+    {{ $type := .Type }}
+    {{ range $key, $value := .Data.Terms.Alphabetical }}
+      {{ $name  := .Name }}
+      {{ $count := .Count }}
+      {{ with $.Site.GetPage (printf "/%s/%s" $type $name) }}
+        <a class="tag-pill" href="{{ .Permalink }}"
+           title="{{ $count }} {{ if eq $count 1 }}post{{ else }}posts{{ end }}">
+          {{ .Name }}<sup>{{ $count }}</sup>
+        </a>
+      {{ end }}
+    {{ end }}
+  </div>
+</section>
+{{ end }}

@@ -1,0 +1,40 @@
+{{ define "title" }}
+  {{- i18n "tags" | default "Tag" }}: {{ .Title }} · {{ .Site.Title -}}
+{{ end }}
+
+{{ define "content" }}
+<section class="container list">
+  <header>
+    <h1 class="title">
+      <a class="title-link" href="{{ .Permalink | safeURL }}">
+        {{- i18n "tags" | default "Tag" }}: {{ .Title -}}
+      </a>
+    </h1>
+    <p class="tag-post-count">
+      {{ len .Pages }}
+      {{ if eq (len .Pages) 1 }}
+        {{ if eq $.Site.Language.Lang "pt-br" }}artigo{{ else }}post{{ end }}
+      {{ else }}
+        {{ if eq $.Site.Language.Lang "pt-br" }}artigos{{ else }}posts{{ end }}
+      {{ end }}
+    </p>
+  </header>
+
+  {{ .Content }}
+
+  <ul>
+    {{ range .Paginator.Pages }}
+    <li>
+      <span class="date">
+        {{ .Date | time.Format (.Site.Params.dateFormat | default "January 2, 2006") }}
+      </span>
+      <a class="title" href="{{ .Params.externalLink | default .RelPermalink }}">
+        {{ .Title }}
+      </a>
+    </li>
+    {{ end }}
+  </ul>
+
+  {{ partial "pagination.html" . }}
+</section>
+{{ end }}
